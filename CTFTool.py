@@ -330,10 +330,10 @@ def init():
 def login(form_control_name="form-control", form_control_index=0):
     global username
     global password
-    if username is None:
-        password = raw_input('Please provide the username to use by default: ')
-    if password is None:
-        password = raw_input('Please provide the username to use by default: ')
+    if username == "":
+        username = raw_input('Please provide the username to use by default: ')
+    if password == "":
+        password = raw_input('Please provide the password to use by default: ')
     browser.find_element_by_name('username').send_keys(username)
     browser.find_element_by_name('password').send_keys(password)
     browser.find_elements_by_class_name(form_control_name)[form_control_index].click()    
@@ -345,8 +345,8 @@ def main():
     print("\nMain done")
 
 browser = None
-username = None
-password = None
+username = ""
+password = ""
 
 if __name__ == "__main__":
     main()
