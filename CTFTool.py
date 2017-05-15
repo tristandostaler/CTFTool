@@ -343,6 +343,7 @@ def main():
     init()
     #login()
     print("\nMain done")
+    embed()
 
 browser = None
 username = None
@@ -350,4 +351,3 @@ password = None
 
 if __name__ == "__main__":
     main()
-    embed()
