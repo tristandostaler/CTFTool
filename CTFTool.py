@@ -327,16 +327,16 @@ def init():
         browser = webdriver.Firefox()
     browser.get(default_site)
 
-def login(form_control_name="form-control", form_control_index=0):
+def login(form_control_name="form-control", form_control_index=0, username_element_name='username', password_element_name='password'):
     global username
     global password
     if username == "":
         username = raw_input('Please provide the username to use by default: ')
     if password == "":
         password = raw_input('Please provide the password to use by default: ')
-    browser.find_element_by_name('username').send_keys(username)
-    browser.find_element_by_name('password').send_keys(password)
-    browser.find_elements_by_class_name(form_control_name)[form_control_index].click()    
+    browser.find_element_by_name(username_element_name).send_keys(username)
+    browser.find_element_by_name(password_element_name).send_keys(password)
+    browser.find_elements_by_class_name(form_control_name)[form_control_index].click()
 
 def main():
     print_banner()
