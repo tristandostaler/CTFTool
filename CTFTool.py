@@ -20,8 +20,6 @@
 # ALWAYS LOOK IN SOURCE CODE, COOKIES AND HEADERS!
 # Case sensitivity in sql: https://dev.mysql.com/doc/refman/5.7/en/case-sensitivity.html
 
-
-from long_strings import *
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -39,7 +37,9 @@ from selenium.webdriver.common.by import By
 import urllib
 from enum import Enum
 from IPython import embed
+from long_strings import *
 import SQLiTool
+import XSSTool
 
 def stalenessOf(driver, element):
     try:
