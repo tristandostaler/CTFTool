@@ -53,6 +53,13 @@ def wait_for_page_load_after_element_click(element, timeout=3):
     element.click()
     WebDriverWait(browser, timeout).until(lambda d: stalenessOf(d, htmlElem))
 
+def wait_for_page_load_after_refresh(timeout=3,accept_alert=False):
+    htmlElem = browser.find_element_by_tag_name("html")
+    browser.refresh()
+    if accept_alert:
+        browser.switch_to.alert.accept()
+    WebDriverWait(browser, timeout).until(lambda d: stalenessOf(d, htmlElem))
+
 def remove_password_type():
     for e in browser.find_elements_by_name('password'):
         browser.execute_script("return arguments[0].setAttribute('type','text')",e)
