@@ -1,4 +1,5 @@
 import CTFTool
+from CTFTool.Tools import * 
 from IPython import embed
 
 

@@ -3,10 +3,10 @@ import sys
 import time
 import binascii
 import hashlib
-from utils import *
-from BrowserTool import BrowserTool
-import SQLiTool
-import XSSTool
+from Tools.utils import *
+from Tools.BrowserTool import BrowserTool
+import Tools.SQLiTool
+import Tools.XSSTool
 
 
 def main():
