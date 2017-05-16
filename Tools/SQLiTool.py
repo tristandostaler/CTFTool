@@ -139,6 +139,7 @@ def try_default_SQLi_tests(func):
     ') or '1'='1-- 
     ') or ('1'='1-- 
     TODO add those payloads? https://github.com/fuzzdb-project/fuzzdb/tree/master/attack/sql-injection
+    http://stackoverflow.com/questions/5741187/sql-injection-that-gets-around-mysql-real-escape-string/12118602
     '''
     payloads = [
         "admin' --",

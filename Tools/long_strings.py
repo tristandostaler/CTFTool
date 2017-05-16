@@ -61,6 +61,7 @@ A few things to always remember:
     - When doing SQLi, always think about case sensitivity! (eg. COLLATE latin1_bin)
     - http://pentestmonkey.net/category/cheat-sheet/sql-injection
     - Remember to test the multibyte char SQLi trick
+        (http://stackoverflow.com/questions/5741187/sql-injection-that-gets-around-mysql-real-escape-string/12118602)
 
 '''
 
