@@ -41,6 +41,12 @@ from long_strings import *
 import SQLiTool
 import XSSTool
 
+
+def replace_elements_in_text(text, dict_of_elements):
+    for k, v in dict_of_elements:
+        text = text.replace(k,v)
+    return text
+
 def stalenessOf(driver, element):
     try:
         element.is_enabled()

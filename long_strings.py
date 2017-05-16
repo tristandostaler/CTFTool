@@ -69,6 +69,12 @@ Usefull functions:
         No args
         Print the welcome header
 
+    replace_elements_in_text(text, dict_of_elements)
+        text - the text to apply the modification to
+        dict_of_elements - a dictionnary of key to replace by the value
+        Function which return the initial text with keys replaced by values
+            (Ex: replace_elements_in_text('ABC', [('A','a'),('B','b'),('C','c')]) => 'abc')
+
     show_exception(ex)
         ex - the exception object when catching an exception
         Function used to display some usefull info on an exception.
