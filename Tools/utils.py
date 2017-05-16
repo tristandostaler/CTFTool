@@ -1,7 +1,8 @@
-from select import select
 from long_strings import *
+from select import select
 import sys
 import time
+import jsbeautifier
 
 
 def replace_elements_in_text(text, dict_of_elements):
@@ -37,4 +38,10 @@ def print_banner():
 
 def get_usefull_functions():
     print(usefull_function)
+
+def beautify_javascript_from_file(file):
+    return jsbeautifier.beautify_file(file)
+
+def beautify_javascript_from_text(text):
+    return jsbeautifier.beautify(text)
 

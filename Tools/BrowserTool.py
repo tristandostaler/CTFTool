@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # pip install selenium
 # pip install ipython
+# pip install jsbeautifier
 # also install https://github.com/mozilla/geckodriver/releases
 # sudo mv geckodriver /usr/bin
 # export PATH=$PATH:/usr/bin/geckodriver

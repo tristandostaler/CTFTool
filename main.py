@@ -10,14 +10,23 @@ import Tools.XSSTool
 
 
 def main():
-    global browserTool
-    browserTool = BrowserTool()
+    global allBrowserTool
+    global mainBrowserTool
+    mainBrowserTool = BrowserTool()
+    allBrowserTool.append(mainBrowserTool)
     print_banner()
-    browserTool.init()
+    mainBrowserTool.init()
     #ctfTool.login()
     print("\nMain done")
 
-browserTool = None
+def open_second_browser():
+    global allBrowserTool
+    browserTool = BrowserTool()
+    allBrowserTool.append(browserTool)
+    browserTool.init()
+
+allBrowserTool = list()
+mainBrowserTool = None
 
 if __name__ == "__main__":
     main()
