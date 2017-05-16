@@ -1,3 +1,10 @@
+from enum import Enum
+import string
+from string import ascii_lowercase, ascii_uppercase
+import urllib
+from utils import *
+
+
 def general_brute_force_substr(func, payload, letters="", lower=False, upper=False, number=False, punct=False):
     try:
         current = ""

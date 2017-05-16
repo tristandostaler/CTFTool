@@ -1,19 +1,26 @@
-def other_function_to_use():
+import CTFTool
+from IPython import embed
+
+
+def other_function_to_use(browser):
     print("Nothing yet")
-    CTFTool.browser.get("http://example.com")
+    #CTFTool.SQLiTool.general_brute_force_substr(...)
+    browser.get("http://example.com")
 
 def custom_login():
     login(form_control_name="form-control", form_control_index=2)
 
-if __name__ == "__main__":
-    import sys
-    import time
-    if not sys.flags.interactive:
-        print("Run this script in python or IPython interactive with [i]python -i scriptName.py for a better experience!")
-        time.sleep(5)
+def main():
+    global browserTool
+    browserTool = CTFTool.BrowserTool()
+    browserTool.init()
 
-    #TODO fix this
-    from CTFTool import * 
-    import CTFTool
-    main() 
+browserTool = None
+
+if __name__ == "__main__":
+    # This template does not work well in the same directory
+    #   as CTFTool. This is only a template.a
+    #   Use main.py instead if you want to run CTFTool!
+    main()
+    embed()
 

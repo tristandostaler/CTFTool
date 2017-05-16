@@ -1,4 +1,4 @@
-banner = '''
+banner_header = '''
  .d8888b.  88888888888 8888888888 88888888888                   888 
 d88P  Y88b     888     888            888                       888 
 888    888     888     888            888                       888 
@@ -7,9 +7,12 @@ d88P  Y88b     888     888            888                       888
 888    888     888     888            888     888  888 888  888 888 
 Y88b  d88P     888     888            888     Y88..88P Y88..88P 888 
  "Y8888P"      888     888            888      "Y88P"   "Y88P"  888 
-
+                                 
 This is a nice CTF tool designed by Tristan Dostaler
     https://github.com/tristandostaler/CTFTool
+'''
+
+banner = '''
 
 To print this banner again, please use the function:
     print_banner()
