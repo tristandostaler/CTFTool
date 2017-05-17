@@ -10,11 +10,11 @@ import Tools.XSSTool
 
 
 def main():
+    print_banner()
     global allBrowserTool
     global mainBrowserTool
     mainBrowserTool = BrowserTool()
     allBrowserTool.append(mainBrowserTool)
-    print_banner()
     mainBrowserTool.init()
     #ctfTool.login()
     print("\nMain done")

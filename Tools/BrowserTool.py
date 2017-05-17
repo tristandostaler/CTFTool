@@ -29,6 +29,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 import requests
+import re
+import os
 
 
 class BrowserTool:
@@ -103,7 +105,7 @@ class BrowserTool:
         self.browser.find_elements_by_class_name(form_control_name)[form_control_index].click()
 
     #http://docs.python-requests.org/en/master/user/quickstart/
-    def get_raw_request(self, url, payload=None, headers=None):
+    def get_raw_request(self, url, send_to_browser=False, payload=None, headers=None):
         if headers == None:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
         headers['Cookie'] = ""
@@ -113,9 +115,11 @@ class BrowserTool:
             r = requests.get(url)
         else:
             r = requests.get(url, params=payload)
+        if send_to_browser:
+            self.send_result_to_browser(r)
         return r
 
-    def post_raw_request(self, url, payload=None, headers=None):
+    def post_raw_request(self, url, send_to_browser=False, payload=None, headers=None):
         if headers == None:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
         headers['Cookie'] = ""
@@ -125,4 +129,14 @@ class BrowserTool:
             r = requests.post(url)
         else:
             r = requests.post(url, params=payload)
+        if send_to_browser:
+            self.send_result_to_browser(r)
         return r
+
+    def send_result_to_browser(self, request):
+        clean = re.sub('[^\s!-~]', '', request.text.encode('utf8').replace('\n','<br/>').replace('"','\"'))
+        realPath = os.path.realpath(__file__)
+        dirPath = os.path.dirname(realPath)
+        with open(dirPath + '/recent_request_response.html','w') as f:
+            f.write(clean)
+        self.browser.get("file:///" + dirPath + "/recent_request_response.html")
