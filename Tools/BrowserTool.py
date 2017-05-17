@@ -2,6 +2,7 @@
 # pip install selenium
 # pip install ipython
 # pip install jsbeautifier
+# pip install requests
 # also install https://github.com/mozilla/geckodriver/releases
 # sudo mv geckodriver /usr/bin
 # export PATH=$PATH:/usr/bin/geckodriver
@@ -27,6 +28,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+import requests
 
 
 class BrowserTool:
@@ -100,3 +102,27 @@ class BrowserTool:
         self.browser.find_element_by_name(password_element_name).send_keys(self.password)
         self.browser.find_elements_by_class_name(form_control_name)[form_control_index].click()
 
+    #http://docs.python-requests.org/en/master/user/quickstart/
+    def get_raw_request(self, url, payload=None, headers=None):
+        if headers == None:
+            headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
+        headers['Cookie'] = ""
+        for cookie in self.browser.get_cookies():
+            headers['Cookie'] = headers['Cookie'] + str(cookie['value']) + ";"
+        if payload == None:
+            r = requests.get(url)
+        else:
+            r = requests.get(url, params=payload)
+        return r
+
+    def post_raw_request(self, url, payload=None, headers=None):
+        if headers == None:
+            headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
+        headers['Cookie'] = ""
+        for cookie in self.browser.get_cookies():
+            headers['Cookie'] = headers['Cookie'] + str(cookie['value']) + ";"
+        if payload == None:
+            r = requests.post(url)
+        else:
+            r = requests.post(url, params=payload)
+        return r
