@@ -113,11 +113,11 @@ class BrowserTool:
         self.browser.find_elements_by_class_name(form_control_name)[form_control_index].click()
 
     #http://docs.python-requests.org/en/master/user/quickstart/
-    def get_raw_request(self, url, send_to_browser=False, payload=None, headers=None):
-        if headers == None:
+    def get_raw_request(self, url, send_to_browser=False, payload=None, headers={}):
+        if headers == {}:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
         for cookie in self.browser.get_cookies():
-            headers['Cookie'] = headers['Cookie'] + str(cookie['name']) + "=" + str(cookie['value']) + ";"
+            headers['Cookie'] = (headers['Cookie'] if 'Cookie' in headers else "") + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
             r = requests.get(url, headers=headers)
         else:
@@ -126,15 +126,15 @@ class BrowserTool:
             self.send_result_to_browser(r)
         return r
 
-    def post_raw_request(self, url, send_to_browser=False, payload=None, headers=None):
-        if headers == None:
+    def post_raw_request(self, url, send_to_browser=False, payload=None, headers={}):
+        if headers == {}:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
         for cookie in self.browser.get_cookies():
-            headers['Cookie'] = headers['Cookie'] + str(cookie['name']) + "=" + str(cookie['value']) + ";"
+            headers['Cookie'] = (headers['Cookie'] if 'Cookie' in headers else "") + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
             r = requests.post(url, headers=headers)
         else:
-            r = requests.post(url, headers=headers,params=payload, proxies=self.webdriver_proxies, verify=self.webdriver_proxies=={})
+            r = requests.post(url, headers=headers,data=payload, proxies=self.webdriver_proxies, verify=self.webdriver_proxies=={})
         if send_to_browser:
             self.send_result_to_browser(r)
         return r
