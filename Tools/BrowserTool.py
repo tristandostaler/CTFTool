@@ -39,6 +39,9 @@ class BrowserTool:
         self.browser = None
         self.username = ""
         self.password = ""
+        self.proxyHost = ""
+        self.proxyPort = ""
+        self.webdriver_proxies = {}
 
     def stalenessOf(self, driver, element):
         try:
@@ -73,22 +76,27 @@ class BrowserTool:
             default_site = "https://github.com/tristandostaler/CTFTool"
         use_proxy = raw_input('Use proxy (eg. Burp) [Y/n]? ')
         if use_proxy.lower() != "n":
-            proxyHost = raw_input('Please provide the proxy host [127.0.0.1]: ')
-            if proxyHost == "":
-                proxyHost = "127.0.0.1"
-            proxyPort = raw_input('Please provide the proxy port [8080]: ')
-            if proxyPort == "":
-                proxyPort = "8080"
+            self.proxyHost = raw_input('Please provide the proxy host [127.0.0.1]: ')
+            if self.proxyHost == "":
+                self.proxyHost = "127.0.0.1"
+            self.proxyPort = raw_input('Please provide the proxy port [8080]: ')
+            if self.proxyPort == "":
+                self.proxyPort = "8080"
+            self.webdriver_proxies = {
+                'http': 'http://' + self.proxyHost + ":" + self.proxyPort,
+                'https': 'https://' + self.proxyHost + ":" + self.proxyPort,
+                'ftp': 'ftp://' + self.proxyHost + ":" + self.proxyPort
+                }
             fp = webdriver.FirefoxProfile()
             fp.set_preference("network.proxy.type", 1)
-            fp.set_preference("network.proxy.http", proxyHost) #HTTP PROXY
-            fp.set_preference("network.proxy.http_port", int(proxyPort))
-            fp.set_preference("network.proxy.ssl", proxyHost) #SSL  PROXY
-            fp.set_preference("network.proxy.ssl_port", int(proxyPort))
-            fp.set_preference("network.proxy.ftp", proxyHost) #HTTP PROXY
-            fp.set_preference("network.proxy.ftp_port", int(proxyPort))
-            fp.set_preference('network.proxy.socks', proxyHost) #SOCKS PROXY
-            fp.set_preference('network.proxy.socks_port', int(proxyPort))
+            fp.set_preference("network.proxy.http", self.proxyHost) #HTTP PROXY
+            fp.set_preference("network.proxy.http_port", int(self.proxyPort))
+            fp.set_preference("network.proxy.ssl", self.proxyHost) #SSL  PROXY
+            fp.set_preference("network.proxy.ssl_port", int(self.proxyPort))
+            fp.set_preference("network.proxy.ftp", self.proxyHost) #HTTP PROXY
+            fp.set_preference("network.proxy.ftp_port", int(self.proxyPort))
+            fp.set_preference('network.proxy.socks', self.proxyHost) #SOCKS PROXY
+            fp.set_preference('network.proxy.socks_port', int(self.proxyPort))
             fp.update_preferences()
             self.browser = webdriver.Firefox(firefox_profile=fp)
         else:
@@ -110,11 +118,11 @@ class BrowserTool:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
         headers['Cookie'] = ""
         for cookie in self.browser.get_cookies():
-            headers['Cookie'] = headers['Cookie'] + str(cookie['value']) + ";"
+            headers['Cookie'] = headers['Cookie'] + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
-            r = requests.get(url)
+            r = requests.get(url, headers=headers)
         else:
-            r = requests.get(url, params=payload)
+            r = requests.get(url, headers=headers, params=payload, proxies=self.webdriver_proxies, verify=self.webdriver_proxies=={})
         if send_to_browser:
             self.send_result_to_browser(r)
         return r
@@ -124,11 +132,11 @@ class BrowserTool:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
         headers['Cookie'] = ""
         for cookie in self.browser.get_cookies():
-            headers['Cookie'] = headers['Cookie'] + str(cookie['value']) + ";"
+            headers['Cookie'] = headers['Cookie'] + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
-            r = requests.post(url)
+            r = requests.post(url, headers=headers)
         else:
-            r = requests.post(url, params=payload)
+            r = requests.post(url, headers=headers,params=payload, proxies=self.webdriver_proxies, verify=self.webdriver_proxies=={})
         if send_to_browser:
             self.send_result_to_browser(r)
         return r
@@ -137,6 +145,6 @@ class BrowserTool:
         clean = re.sub('[^\s!-~]', '', request.text.encode('utf8').replace('\n','<br/>').replace('"','\"'))
         realPath = os.path.realpath(__file__)
         dirPath = os.path.dirname(realPath)
-        with open(dirPath + '/recent_request_response.html','w') as f:
+        with open(dirPath + '/../Data/recent_request_response.html','w') as f:
             f.write(clean)
-        self.browser.get("file:///" + dirPath + "/recent_request_response.html")
+        self.browser.get("file:///" + dirPath + "/../Data/recent_request_response.html")
