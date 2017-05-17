@@ -116,7 +116,6 @@ class BrowserTool:
     def get_raw_request(self, url, send_to_browser=False, payload=None, headers=None):
         if headers == None:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
-        headers['Cookie'] = ""
         for cookie in self.browser.get_cookies():
             headers['Cookie'] = headers['Cookie'] + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
@@ -130,7 +129,6 @@ class BrowserTool:
     def post_raw_request(self, url, send_to_browser=False, payload=None, headers=None):
         if headers == None:
             headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
-        headers['Cookie'] = ""
         for cookie in self.browser.get_cookies():
             headers['Cookie'] = headers['Cookie'] + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
