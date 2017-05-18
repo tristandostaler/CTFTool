@@ -35,7 +35,8 @@ import os
 
 class BrowserTool:
 
-    def __init__(self):
+    def __init__(self, default_site=""):
+        self.default_site = default_site
         self.browser = None
         self.username = ""
         self.password = ""
@@ -71,9 +72,10 @@ class BrowserTool:
             self.browser.execute_script("return arguments[0].setAttribute('type','text')",e)
 
     def init(self):
-        default_site = raw_input('Please enter the default url to access [https://github.com/tristandostaler/CTFTool]: ')
-        if default_site == "":
-            default_site = "https://github.com/tristandostaler/CTFTool"
+        if self.default_site == "":
+            self.default_site = raw_input('Please enter the default url to access [https://github.com/tristandostaler/CTFTool]: ')
+        if self.default_site == "":
+            self.default_site = "https://github.com/tristandostaler/CTFTool"
         use_proxy = raw_input('Use proxy (eg. Burp) [Y/n]? ')
         if use_proxy.lower() != "n":
             self.proxyHost = raw_input('Please provide the proxy host [127.0.0.1]: ')
@@ -101,7 +103,7 @@ class BrowserTool:
             self.browser = webdriver.Firefox(firefox_profile=fp)
         else:
             self.browser = webdriver.Firefox()
-        self.browser.get(default_site)
+        self.browser.get(self.default_site)
 
     def login(self, form_control_name="form-control", form_control_index=0, username_element_name='username', password_element_name='password'):
         if self.username == "":
@@ -143,6 +145,9 @@ class BrowserTool:
         clean = re.sub('[^\s!-~]', '', request.text.encode('utf8').replace('\n','<br/>').replace('"','\"'))
         realPath = os.path.realpath(__file__)
         dirPath = os.path.dirname(realPath)
-        with open(dirPath + '/../Data/recent_request_response.html','w') as f:
+        file_dir = dirPath + '/../Data';
+        if not os.path.exists(file_dir):
+            os.makedirs(file_dir)
+        with open(file_dir + '/recent_request_response.html','w') as f:
             f.write(clean)
-        self.browser.get("file:///" + dirPath + "/../Data/recent_request_response.html")
+        self.browser.get("file:///" + file_dir + "/recent_request_response.html")

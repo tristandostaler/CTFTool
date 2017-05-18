@@ -20,7 +20,7 @@ browserTool = None
 
 if __name__ == "__main__":
     # This template does not work well in the same directory
-    #   as CTFTool. This is only a template.a
+    #   as CTFTool. This is only a template.
     #   Use main.py instead if you want to run CTFTool!
     main()
     embed()
