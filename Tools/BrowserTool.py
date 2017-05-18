@@ -117,7 +117,7 @@ class BrowserTool:
     #http://docs.python-requests.org/en/master/user/quickstart/
     def get_raw_request(self, url, send_to_browser=False, payload=None, headers={}):
         if headers == {}:
-            headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
+            headers = { 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:53.0) Gecko/20100101 Firefox/53.0'}
         for cookie in self.browser.get_cookies():
             headers['Cookie'] = (headers['Cookie'] if 'Cookie' in headers else "") + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
@@ -130,7 +130,7 @@ class BrowserTool:
 
     def post_raw_request(self, url, send_to_browser=False, payload=None, headers={}):
         if headers == {}:
-            headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0'}
+            headers = { 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:53.0) Gecko/20100101 Firefox/53.0'}
         for cookie in self.browser.get_cookies():
             headers['Cookie'] = (headers['Cookie'] if 'Cookie' in headers else "") + str(cookie['name']) + "=" + str(cookie['value']) + ";"
         if payload == None:
