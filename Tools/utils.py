@@ -45,3 +45,10 @@ def beautify_javascript_from_file(file):
 def beautify_javascript_from_text(text):
     return jsbeautifier.beautify(text)
 
+def header_string_to_dict(header_string):
+    header_dict = {}
+    for h in header_string.split('\n'):
+        if 'Content-Length' not in h and 'POST' not in h and 'GET' not in h:
+            header_dict[h.split(': ')[0]] = h.split(': ')[1]
+    return header_dict
+
