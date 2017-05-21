@@ -7,6 +7,7 @@ from Tools.utils import *
 from Tools.BrowserTool import BrowserTool
 import Tools.SQLiTool
 import Tools.XSSTool
+import Tools.CryptoTool
 
 
 def main():
