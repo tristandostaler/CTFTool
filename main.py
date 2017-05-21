@@ -19,7 +19,7 @@ def main():
     #ctfTool.login()
     print("\nMain done")
 
-def open_second_browser():
+def open_another_browser():
     global allBrowserTool
     browserTool = BrowserTool()
     allBrowserTool.append(browserTool)
@@ -31,3 +31,4 @@ mainBrowserTool = None
 if __name__ == "__main__":
     main()
     embed()
+
