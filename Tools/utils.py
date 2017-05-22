@@ -1,4 +1,4 @@
-from long_strings import *
+from .long_strings import *
 from select import select
 import sys
 import time
@@ -20,17 +20,17 @@ def check_not_key_pressed(): #Inverse checking to ease programming
 def show_exception(ex):
     template = "\tAn exception of type {0} occurred. Arguments:\n\t{1!r}"
     message = template.format(type(ex).__name__, ex.args)
-    print message
+    print(message)
 
 def print_banner():
     print(banner_header)
     for i in range(3):
         for j in range(0,10):
-            print '\r              ' + (' '*j*4) + ('o'*5) + (' '*(34-(j*4)+1)),
+            print('\r              ' + (' '*j*4) + ('o'*5) + (' '*(34-(j*4)+1)), end='')
             sys.stdout.flush()
             time.sleep(0.05)
         for j in range(0,10):
-            print '\r              ' + (' '*(34-(j*4)+1)) + ('o'*5) + (' '*j*4),
+            print('\r              ' + (' '*(34-(j*4)+1)) + ('o'*5) + (' '*j*4), end='')
             sys.stdout.flush()
             time.sleep(0.05)
     print('\r' + ' '*35)

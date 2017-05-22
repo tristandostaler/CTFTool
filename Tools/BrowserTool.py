@@ -73,15 +73,15 @@ class BrowserTool:
 
     def init(self):
         if self.default_site == "":
-            self.default_site = raw_input('Please enter the default url to access [https://github.com/tristandostaler/CTFTool]: ')
+            self.default_site = input('Please enter the default url to access [https://github.com/tristandostaler/CTFTool]: ')
         if self.default_site == "":
             self.default_site = "https://github.com/tristandostaler/CTFTool"
-        use_proxy = raw_input('Use proxy (eg. Burp) [Y/n]? ')
+        use_proxy = input('Use proxy (eg. Burp) [Y/n]? ')
         if use_proxy.lower() != "n":
-            self.proxyHost = raw_input('Please provide the proxy host [127.0.0.1]: ')
+            self.proxyHost = input('Please provide the proxy host [127.0.0.1]: ')
             if self.proxyHost == "":
                 self.proxyHost = "127.0.0.1"
-            self.proxyPort = raw_input('Please provide the proxy port [8080]: ')
+            self.proxyPort = input('Please provide the proxy port [8080]: ')
             if self.proxyPort == "":
                 self.proxyPort = "8080"
             self.webdriver_proxies = {
@@ -107,9 +107,9 @@ class BrowserTool:
 
     def login(self, form_control_name="form-control", form_control_index=0, username_element_name='username', password_element_name='password'):
         if self.username == "":
-            self.username = raw_input('Please provide the username to use by default: ')
+            self.username = input('Please provide the username to use by default: ')
         if self.password == "":
-            self.password = raw_input('Please provide the password to use by default: ')
+            self.password = input('Please provide the password to use by default: ')
         self.browser.find_element_by_name(username_element_name).send_keys(self.username)
         self.browser.find_element_by_name(password_element_name).send_keys(self.password)
         self.browser.find_elements_by_class_name(form_control_name)[form_control_index].click()

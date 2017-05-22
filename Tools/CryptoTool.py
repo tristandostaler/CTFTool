@@ -42,6 +42,10 @@ freqs = {
 }
 
 def getHammingDistance(x, y):
+    #print('Y: ' + str(y) + " lenX: " + str(len(x)) + " lenY: " + str(len(y)))
+    #min(len(x),len(y))
+    if len(y) < len(x):
+        return 0
     return sum([bin(x[i] ^ y[i]).count('1') for i in range(len(x))])
 
 def score(s):
@@ -67,8 +71,11 @@ def breakRepeatingKeyXor(x, k):
     return bytes(key)
 
 def normalizedEditDistance(x, k):
+    #print("X: " + str(x) + " K:" + str(k))
     blocks = [x[i:i+k] for i in range(0, len(x), k)][0:4]
+    #print("blocks: " + str(blocks))
     pairs = list(itertools.combinations(blocks, 2))
+    #print("pairs: " + str(pairs))
     scores = [getHammingDistance(p[0], p[1])/float(k) for p in pairs][0:6]
     return sum(scores) / len(scores)
 

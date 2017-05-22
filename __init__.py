@@ -1,4 +1,4 @@
-from Tools.BrowserTool import BrowserTool
-import Tools.SQLiTool
-import Tools.XSSTool
-import Tools.utils
+from .Tools.BrowserTool import BrowserTool
+from .Tools import SQLiTool
+from .Tools import XSSTool
+from .Tools import utils
