@@ -24,4 +24,3 @@ if __name__ == "__main__":
     #   Use main.py instead if you want to run CTFTool!
     main()
     embed()
-
