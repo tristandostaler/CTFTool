@@ -8,52 +8,15 @@ d88P  Y88b     888     888            888                       888
 Y88b  d88P     888     888            888     Y88..88P Y88..88P 888 
  "Y8888P"      888     888            888      "Y88P"   "Y88P"  888 
                                  
-This is a nice CTF tool designed by Tristan Dostaler
-    https://github.com/tristandostaler/CTFTool
+   This is a nice CTF tool designed by Tristan Dostaler
+You can find multiple example on how to use this tool here:
+       https://github.com/tristandostaler/CTFTool
 '''
 
-banner = '''
-
-To print this banner again, please use the function:
-    print_banner()
-
-At the moment, it is only possible to interact with the website.
-We can't yet bypass it like with burp.
-
-To use this tool, start by defining a function that handles the logic of the page.
-A typical use is to create a function that get's the page, search for an element
-by it's id and verify the result. If the challenge is a GET, you only need 1 function,
-if not, you need 2 (1 to acces, 1 to execute the logic).
-Ex:
-GET:
-    def run_challenge_77_with_id(idText):
-        browser.get('http://web.ringzer0team.com:13372/index.php?id=' + idText + '&s=' + hashlib.md5(idText).hexdigest())
-        for l in browser.find_elements_by_tag_name('section'):
-            if str(l.text).strip() != "" and 'User with ID' in str(l.text).strip():
-                if 'exists on the database' in str(l.text).strip():
-                    return True
-                else:
-                    return False
-POST:
-    def access_challenge_5():
-        browser.get('https://ringzer0team.com/challenges/5')
-
-    def run_challenge_5_with_text(text):
-        print "Trying " + text
-        #The username field is SQL injectable
-        browser.find_element_by_name('username').send_keys(text)
-        wait_for_page_load_after_element_click(browser.find_elements_by_class_name('form-control')[2])
-        chalWrapperText = browser.find_element_by_class_name('alert-danger').text.encode('utf-8')
-        if "Invalid username / password." in chalWrapperText:
-            print "True"
-            return True
-        else:
-            print "False"
-            return False
-
+banner_footer = '''
 
 To get a list of usefull function, use the function:
-    get_usefull_functions()
+    Tools.utils.get_usefull_functions()
 
 A few things to always remember:
 

@@ -22,19 +22,21 @@ def show_exception(ex):
     message = template.format(type(ex).__name__, ex.args)
     print(message)
 
-def print_banner():
+def print_banner_header():
     print(banner_header)
-    for i in range(3):
-        for j in range(0,10):
-            print('\r              ' + (' '*j*4) + ('o'*5) + (' '*(34-(j*4)+1)), end='')
-            sys.stdout.flush()
-            time.sleep(0.05)
-        for j in range(0,10):
-            print('\r              ' + (' '*(34-(j*4)+1)) + ('o'*5) + (' '*j*4), end='')
-            sys.stdout.flush()
-            time.sleep(0.05)
-    print('\r' + ' '*35)
-    print(banner)
+    #for i in range(3):
+    #    for j in range(0,10):
+    #        print('\r              ' + (' '*j*4) + ('o'*5) + (' '*(34-(j*4)+1)), end='')
+    #        sys.stdout.flush()
+    #        time.sleep(0.05)
+    #    for j in range(0,10):
+    #        print('\r              ' + (' '*(34-(j*4)+1)) + ('o'*5) + (' '*j*4), end='')
+    #        sys.stdout.flush()
+    #        time.sleep(0.05)
+    #print('\r' + ' '*35)
+
+def print_banner_footer():
+    print(banner_footer)
 
 def get_usefull_functions():
     print(usefull_function)

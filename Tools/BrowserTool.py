@@ -35,13 +35,13 @@ import os
 
 class BrowserTool:
 
-    def __init__(self, default_site=""):
+    def __init__(self, default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.10", proxyPort="8080", username="", password=""):
         self.default_site = default_site
         self.browser = None
-        self.username = ""
-        self.password = ""
-        self.proxyHost = ""
-        self.proxyPort = ""
+        self.username = username
+        self.password = password
+        self.proxyHost = proxyHost
+        self.proxyPort = proxyPort
         self.webdriver_proxies = {}
 
     def stalenessOf(self, driver, element):
@@ -72,18 +72,19 @@ class BrowserTool:
             self.browser.execute_script("return arguments[0].setAttribute('type','text')",e)
 
     def init(self):
-        if self.default_site == "":
-            self.default_site = input('Please enter the default url to access [https://github.com/tristandostaler/CTFTool]: ')
-        if self.default_site == "":
-            self.default_site = "https://github.com/tristandostaler/CTFTool"
-        use_proxy = input('Use proxy (eg. Burp) [Y/n]? ')
-        if use_proxy.lower() != "n":
-            self.proxyHost = input('Please provide the proxy host [127.0.0.1]: ')
-            if self.proxyHost == "":
-                self.proxyHost = "127.0.0.1"
-            self.proxyPort = input('Please provide the proxy port [8080]: ')
-            if self.proxyPort == "":
-                self.proxyPort = "8080"
+        #if self.default_site == "":
+        #    self.default_site = input('Please enter the default url to access [https://github.com/tristandostaler/CTFTool]: ')
+        #if self.default_site == "":
+        #    self.default_site = "https://github.com/tristandostaler/CTFTool"
+        #use_proxy = input('Use proxy (eg. Burp) [Y/n]? ')
+        #if use_proxy.lower() != "n":
+        #    self.proxyHost = input('Please provide the proxy host [127.0.0.1]: ')
+        #    if self.proxyHost == "":
+        #        self.proxyHost = "127.0.0.1"
+        #    self.proxyPort = input('Please provide the proxy port [8080]: ')
+        #    if self.proxyPort == "":
+        #        self.proxyPort = "8080"
+        if self.proxyHost != "":
             self.webdriver_proxies = {
                 'http': 'http://' + self.proxyHost + ":" + self.proxyPort,
                 'https': 'https://' + self.proxyHost + ":" + self.proxyPort,

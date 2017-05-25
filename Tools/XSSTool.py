@@ -295,14 +295,14 @@ def try_default_XSS_tests(func):
     ]
 
     for payload in payloads:
-        if raw_input("Run payload (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
+        if input("Run payload (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(payload)
             show_success_or_danger()
     for payload in payloads:
-        if raw_input("Run payload url encoded (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
+        if input("Run payload url encoded (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(urllib.quote_plus(payload))
             show_success_or_danger()
-        if raw_input("Run payload url encoded twice (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
+        if input("Run payload url encoded twice (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(urllib.quote_plus(urllib.quote_plus(payload)))
             show_success_or_danger()
 
