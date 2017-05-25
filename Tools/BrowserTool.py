@@ -35,7 +35,7 @@ import os
 
 class BrowserTool:
 
-    def __init__(self, default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.10", proxyPort="8080", username="", password=""):
+    def __init__(self, default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.10", proxyPort="8080", username="", password="", verbosity=0):
         self.default_site = default_site
         self.browser = None
         self.username = username
@@ -43,6 +43,7 @@ class BrowserTool:
         self.proxyHost = proxyHost
         self.proxyPort = proxyPort
         self.webdriver_proxies = {}
+        self.verbosity = verbosity
 
     def stalenessOf(self, driver, element):
         try:
