@@ -35,7 +35,7 @@ import os
 
 class BrowserTool:
 
-    def __init__(self, default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.10", proxyPort="8080", username="", password="", verbosity=0):
+    def __init__(self, default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.1", proxyPort="8080", username="", password="", verbosity=0):
         self.default_site = default_site
         self.browser = None
         self.username = username

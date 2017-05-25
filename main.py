@@ -25,7 +25,7 @@ def main(args):
     print_banner_footer()
     print("\nMain done")
 
-def open_another_browser(default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.10", proxyPort="8080", username="", password="", verbosity=0):
+def open_another_browser(default_site="https://github.com/tristandostaler/CTFTool", proxyHost="127.0.0.1", proxyPort="8080", username="", password="", verbosity=0):
     global allBrowserTool
     browserTool = BrowserTool(default_site,proxyHost,proxyPort,username,password,verbosity)
     allBrowserTool.append(browserTool)
