@@ -107,7 +107,7 @@ class BrowserTool:
             self.browser = webdriver.Firefox()
         self.browser.get(self.default_site)
 
-    def login(self, form_control_name="form-control", form_control_index=0, username_element_name='username', password_element_name='password'):
+    def login(self, form_control_name="form-control", form_control_index=2, username_element_name='username', password_element_name='password'):
         if self.username == "":
             self.username = input('Please provide the username to use by default: ')
         if self.password == "":
