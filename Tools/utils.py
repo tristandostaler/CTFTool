@@ -11,6 +11,9 @@ def replace_elements_in_text(text, dict_of_elements):
     return text
 
 def check_not_key_pressed(): #Inverse checking to ease programming
+    # TODO fix this. Not working.
+    # Temp fix:
+    return True
     rlist, wlist, xlist = select([sys.stdin], [], [], 0.1)
     if rlist:
         return False

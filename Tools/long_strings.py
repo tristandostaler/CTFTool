@@ -73,7 +73,7 @@ Usefull functions:
     all_256_character_as_char_brute_force_substr(func, payload, numbers_as_array=[])
         func - the user defined function that handles the logic
         payload - the handcrafted payload for a specific SQLi 
-            (Ex: ' and substr(select version()),1,[count])=[letters] -- )
+            (Ex: ' and substr((select version()),1,[count])=[letters] -- )
         numbers_as_array - An array of decimal values of letters already discovered
             (Ex: [65, 66, 67] => 'ABC')
         This function will bruteforce all the possibilities based on the decimal values.
