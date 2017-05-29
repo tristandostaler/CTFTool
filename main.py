@@ -13,12 +13,15 @@ import Tools.CryptoTool
 
 
 def main(args):
+    initialise(args.url, args.proxy_host, args.proxy_port, args.username, args.password, args.verbosity)
+
+def initialise(url, proxy_host, proxy_port, username, password, verbosity):
     print_banner_header()
     global allBrowserTool
     global mainBrowserTool
-    mainBrowserTool = BrowserTool(default_site=args.url, proxyHost=args.proxy_host, 
-        proxyPort=args.proxy_port, username=args.username, password=args.password, 
-        verbosity=args.verbosity)
+    mainBrowserTool = BrowserTool(default_site=url, proxyHost=proxy_host, 
+        proxyPort=proxy_port, username=username, password=password, 
+        verbosity=verbosity)
     allBrowserTool.append(mainBrowserTool)
     mainBrowserTool.init()
     #ctfTool.login()
