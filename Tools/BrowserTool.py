@@ -1,26 +1,3 @@
-#!/usr/bin/env python
-# pip install selenium
-# pip install ipython
-# pip install jsbeautifier
-# pip install requests
-# also install https://github.com/mozilla/geckodriver/releases
-# sudo mv geckodriver /usr/bin
-# export PATH=$PATH:/usr/bin/geckodriver
-# then run script
-# https://websec.wordpress.com/2010/12/04/sqli-filter-evasion-cheat-sheet-mysql/
-# http://pentestmonkey.net/cheat-sheet/sql-injection/postgres-sql-injection-cheat-sheet
-# http://atta.cked.me/home/sqlite3injectioncheatsheet
-# https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/
-# https://gist.githubusercontent.com/MattDMo/6cb1dfbe8a124e1ca5af/raw/a511e86dde7b3a70bdbd63b7ac3c98c32cd74277/ipy_repl.py
-# https://gist.github.com/MattDMo/6cb1dfbe8a124e1ca5af
-# http://atta.cked.me/home/sqlite3injectioncheatsheet
-# https://github.com/unicornsasfuel/sqlite_sqli_cheat_sheet
-# https://sqliteonline.com/
-# http://pentestmonkey.net/cheat-sheet/sql-injection/mysql-sql-injection-cheat-sheet
-# http://ringzer0team.com:1008/?page=php://filter/convert.base64-encode/resource=/var/www/html/index.php
-# https://www.branah.com/ascii-converter
-# ALWAYS LOOK IN SOURCE CODE, COOKIES AND HEADERS!
-# Case sensitivity in sql: https://dev.mysql.com/doc/refman/5.7/en/case-sensitivity.html
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -44,7 +21,46 @@ class BrowserTool:
         self.proxyPort = proxyPort
         self.webdriver_proxies = {}
         self.verbosity = verbosity
+        self.main_tab = None
 
+    def get_actual_tab_name(self):
+        return self.browser.current_window_handle.encode()
+
+    def get_all_tabs(self):
+        return self.browser.window_handles
+    
+    def change_to_tab_by_index(self, index):
+        self.browser.switch_to_window(self.browser.window_handles[index])
+    
+    def change_to_tab_by_name(self, name):
+        self.browser.switch_to_window(name)
+
+    def create_new_tab(self, base_url="", auto_switch=True):
+        actual_tab = self.get_actual_tab_name()
+        self.browser.execute_script("window.open('" + base_url + "')")
+        if auto_switch:
+            self.change_to_tab_by_name(actual_tab)
+
+    def get_page_source(self):
+        return self.browser.page_source.encode()
+
+    def get_substring_in_page_source(self, start_string, end_string=""):
+        page_source = self.get_page_source()
+        if end_string == "":
+            return page_source[page_source.index(start_string):]
+        else:
+            return page_source[page_source.index(start_string):page_source.index(end_string)]
+    
+    def get_substring_from_given_source(self, source, start_string, end_string=""):
+        if end_string == "":
+            return source[source.index(start_string):]
+        else:
+            return source[source.index(start_string):source.index(end_string)]
+
+    def replace_cookie(self, name, value):
+        self.browser.delete_cookie(name)
+        self.browser.add_cookie({"name": name, "value": value})
+    
     def stalenessOf(self, driver, element):
         try:
             element.is_enabled()
@@ -105,6 +121,7 @@ class BrowserTool:
             self.browser = webdriver.Firefox(firefox_profile=fp)
         else:
             self.browser = webdriver.Firefox()
+        self.main_tab = self.browser.current_window_handle
         self.browser.get(self.default_site)
 
     def login(self, form_control_name="form-control", form_control_index=2, username_element_name='username', password_element_name='password'):

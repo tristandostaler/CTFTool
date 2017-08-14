@@ -1,10 +1,36 @@
-from IPython import embed
+#!/usr/bin/env python
+# pip install selenium
+# pip install ipython
+# pip install jsbeautifier
+# pip install requests
+# also install https://github.com/mozilla/geckodriver/releases
+# sudo mv geckodriver /usr/bin
+# export PATH=$PATH:/usr/bin/geckodriver
+# then run script
+# Sources:
+# https://websec.wordpress.com/2010/12/04/sqli-filter-evasion-cheat-sheet-mysql/
+# http://pentestmonkey.net/cheat-sheet/sql-injection/postgres-sql-injection-cheat-sheet
+# http://atta.cked.me/home/sqlite3injectioncheatsheet
+# https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/
+# https://gist.githubusercontent.com/MattDMo/6cb1dfbe8a124e1ca5af/raw/a511e86dde7b3a70bdbd63b7ac3c98c32cd74277/ipy_repl.py
+# https://gist.github.com/MattDMo/6cb1dfbe8a124e1ca5af
+# http://atta.cked.me/home/sqlite3injectioncheatsheet
+# https://github.com/unicornsasfuel/sqlite_sqli_cheat_sheet
+# https://sqliteonline.com/
+# http://pentestmonkey.net/cheat-sheet/sql-injection/mysql-sql-injection-cheat-sheet
+# http://ringzer0team.com:1008/?page=php://filter/convert.base64-encode/resource=/var/www/html/index.php
+# https://www.branah.com/ascii-converter
+#
+# Notes:
+# ALWAYS LOOK IN SOURCE CODE, COOKIES AND HEADERS!
+# Case sensitivity in sql: https://dev.mysql.com/doc/refman/5.7/en/case-sensitivity.html
 import sys
 import time
 import binascii
 import hashlib
 import argparse
 from argparse import RawTextHelpFormatter
+from IPython import embed
 from Tools.utils import *
 from Tools.BrowserTool import BrowserTool
 import Tools.SQLiTool
@@ -50,6 +76,8 @@ def parseArgs():
                     help="Optional. Username to use when calling the login function")
     parser.add_argument("-d", "--password", action="store", default="",
                     help="Optional. Password to use when calling the login function")
+    parser.add_argument("-N", "--no-interactive", action="store_true", default=False,
+                    help="Optional switch. If set, the IPython interactive console will not start.")
     args = parser.parse_args()
     if args.no_proxy:
         args.proxy_host = ""
@@ -64,6 +92,13 @@ mainBrowserTool = None
 
 if __name__ == "__main__":
     args = parseArgs()
+
+    #Block: Uncomment when debugging using REPL
+    #args.proxy_host = ""
+    #args.proxy_port = ""
+    #End Block
+
     main(args)
-    embed()
+    if not args.no_interactive:
+        embed()
 
