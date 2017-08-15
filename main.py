@@ -21,6 +21,8 @@
 # http://ringzer0team.com:1008/?page=php://filter/convert.base64-encode/resource=/var/www/html/index.php
 # https://www.branah.com/ascii-converter
 #
+# Adding a git submodule: https://stackoverflow.com/questions/2140985/how-to-set-up-a-git-project-to-use-an-external-repo-submodule
+#
 # Notes:
 # ALWAYS LOOK IN SOURCE CODE, COOKIES AND HEADERS!
 # Case sensitivity in sql: https://dev.mysql.com/doc/refman/5.7/en/case-sensitivity.html
