@@ -170,3 +170,8 @@ class BrowserTool:
         with open(file_dir + '/recent_request_response.html','w') as f:
             f.write(clean)
         self.browser.get("file:///" + file_dir + "/recent_request_response.html")
+
+    def show_comments(self):
+        source = self.get_page_source()
+        for c in re.findall("<!--[^-->]*-->", source):
+            print(c)
