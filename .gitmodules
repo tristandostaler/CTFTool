@@ -1,3 +1,6 @@
 [submodule "Webshells"]
 	path = Webshells
 	url = git://github.com/tennc/webshell.git
+[submodule "FilesToUpload/OxmlXXE"]
+	path = FilesToUpload/OxmlXXE
+	url = git://github.com/BuffaloWill/oxml_xxe.git
