@@ -1,0 +1,10 @@
+XPath injection:
+	http://tomforb.es/exploiting-xpath-injection-vulnerabilities-with-xcat-1
+	https://pypi.python.org/pypi/xcat
+	https://code.google.com/archive/p/xpath-blind-explorer/
+	https://ringzer0team.com/challenges/79/?u=1"] | //*["1&xpath_debug=1
+
+
+Testing outgoing ports:
+	http://portquiz.net/, http://portquiz.net:80, http://portquiz.net:8080, etc.
+
