@@ -52,11 +52,15 @@ class punch_card_reader:
                 y_pos += 150
             x_pos += 52
 
-            word.append(self.getCharacters(characters))
+            chars = self.getCharacters(characters)
+            if chars is not None:
+                word.append(chars)
+            else:
+                word.append(' ')
 
         print "\n{} characters found".format(len(word))
         print word
-        return ("".join(word)).split(",")
+        return ("".join(word)).replace('\\,', ',')
 
 
 def remove_noise(img_in):
