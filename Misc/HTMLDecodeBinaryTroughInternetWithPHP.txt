@@ -1,0 +1,3 @@
+$homepage = file_get_contents('http://filmets.ctf.dciets.com/app.pyc');
+$myfile = fopen('app.new.pyc','w');
+fwrite($myfile,$home_out);

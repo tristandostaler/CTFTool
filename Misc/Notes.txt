@@ -8,3 +8,6 @@ XPath injection:
 Testing outgoing ports:
 	http://portquiz.net/, http://portquiz.net:80, http://portquiz.net:8080, etc.
 
+Download exposed .git:
+	https://en.internetwache.org/dont-publicly-expose-git-or-how-we-downloaded-your-websites-sourcecode-an-analysis-of-alexas-1m-28-07-2015/
+

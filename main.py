@@ -26,6 +26,7 @@
 # Notes:
 # ALWAYS LOOK IN SOURCE CODE, COOKIES AND HEADERS!
 # Case sensitivity in sql: https://dev.mysql.com/doc/refman/5.7/en/case-sensitivity.html
+# Punch cart emulator: http://tyleregeto.com/article/punch-card-emulator
 import sys
 import time
 import binascii
@@ -103,4 +104,4 @@ if __name__ == "__main__":
     main(args)
     if not args.no_interactive:
         embed()
-
+    
