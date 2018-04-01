@@ -5,7 +5,11 @@ import Tools.SQLiTool
 import Tools.XSSTool
 import Tools.CryptoTool
 from main import *
+from IPython import embed
+import base64
 
+
+embed()
 
 def example():
     for i in range(0,10):
@@ -34,3 +38,4 @@ def chal_79(text):
 
 def do_challenge_79():
     Tools.SQLiTool.general_brute_force_substr(chal_79, "substr(( SELECT database() ),1,[count])='[letters]'","",number=True,lower=True,upper=True)
+

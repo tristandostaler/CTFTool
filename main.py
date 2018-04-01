@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # pip install selenium
 # pip install ipython
 # pip install jsbeautifier
@@ -27,11 +27,14 @@
 # ALWAYS LOOK IN SOURCE CODE, COOKIES AND HEADERS!
 # Case sensitivity in sql: https://dev.mysql.com/doc/refman/5.7/en/case-sensitivity.html
 # Punch cart emulator: http://tyleregeto.com/article/punch-card-emulator
+
 import sys
 import time
 import binascii
 import hashlib
 import argparse
+import subprocess
+import base64
 from argparse import RawTextHelpFormatter
 from IPython import embed
 from Tools.utils import *
@@ -44,7 +47,7 @@ import Tools.CryptoTool
 def main(args):
     initialise(args.url, args.proxy_host, args.proxy_port, args.username, args.password, args.verbosity)
 
-def initialise(url, proxy_host, proxy_port, username, password, verbosity):
+def initialise(url="https://github.com/tristandostaler/CTFTool", proxy_host="127.0.0.1", proxy_port="8080", username="", password="", verbosity=0):
     print_banner_header()
     global allBrowserTool
     global mainBrowserTool
@@ -104,4 +107,3 @@ if __name__ == "__main__":
     main(args)
     if not args.no_interactive:
         embed()
-    
