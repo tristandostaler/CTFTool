@@ -1,90 +1,127 @@
-import base64
-import binascii
+from .CryptoToolkit import xor
+from .CryptoToolkit import aes
+from .CryptoToolkit import SubstitutionCipher
+import enchant
+from string import ascii_lowercase
 import itertools
-from Crypto.Util.strxor import strxor_c
+import re
+try:
+    from string import maketrans
+except ImportError:
+    maketrans = str.maketrans
 
-#x = b'this is a test'
-#y = b'wokka wokka!!!'
-#expectedD = 37
-#d = getHammingDistance(x, y)
-#if d != expectedD:
-#    raise Exception(encodedD + ' != ' + encodedExpectedD)
 
-# From http://www.data-compression.com/english.html
-freqs = {
-    'a': 0.0651738,
-    'b': 0.0124248,
-    'c': 0.0217339,
-    'd': 0.0349835,
-    'e': 0.1041442,
-    'f': 0.0197881,
-    'g': 0.0158610,
-    'h': 0.0492888,
-    'i': 0.0558094,
-    'j': 0.0009033,
-    'k': 0.0050529,
-    'l': 0.0331490,
-    'm': 0.0202124,
-    'n': 0.0564513,
-    'o': 0.0596302,
-    'p': 0.0137645,
-    'q': 0.0008606,
-    'r': 0.0497563,
-    's': 0.0515760,
-    't': 0.0729357,
-    'u': 0.0225134,
-    'v': 0.0082903,
-    'w': 0.0171272,
-    'x': 0.0013692,
-    'y': 0.0145984,
-    'z': 0.0007836,
-    ' ': 0.1918182 
-}
+def xor_with_fixed_length(s1, s2, keys_are_string_hex=True):
+    assert (len(s1) == len(s2))
+    if not keys_are_string_hex:
+        s1 = s1.encode("utf-8").hex()
+        s2 = s2.encode("utf-8").hex()
+    b1 = bytes.fromhex(s1)
+    b2 = bytes.fromhex(s2)
+    xored = xor.xor_bytes(b1, b2)
+    return xored
 
-def getHammingDistance(x, y):
-    #print('Y: ' + str(y) + " lenX: " + str(len(x)) + " lenY: " + str(len(y)))
-    #min(len(x),len(y))
-    if len(y) < len(x):
-        return 0
-    return sum([bin(x[i] ^ y[i]).count('1') for i in range(len(x))])
 
-def score(s):
-    score = 0
-    for i in s:
-        c = chr(i).lower()
-        if c in freqs:
-            score += freqs[c]
-    return score
+def break_single_byte_xor(cipher, cipher_is_string_hex=True):
+    if not cipher_is_string_hex:
+        cipher = cipher.encode("utf-8").hex()
+    cipher = bytes.fromhex(cipher)
+    key_found = xor.break_xor_char_key(cipher)
+    message = xor.xor_single_char_key(cipher, key_found).decode('ascii')
+    return message, key_found
 
-def breakSingleByteXOR(s):
-    def key(p):
-        return score(p[1])
-    return max([(i, strxor_c(s, i)) for i in range(0, 256)], key=key)
 
-def encodeRepeatingKeyXor(s, key):
-    return bytes([s[i] ^ key[i % len(key)] for i in range(len(s))])
+def xor_repeating_key(message, key_received, message_and_key_is_string_hex=True):
+    if not message_and_key_is_string_hex:
+        message = message.encode("utf-8").hex()
+        key_received = key_received.encode("utf-8").hex()
+    message = message.encode('ascii')
+    key_received = key_received.encode('ascii')
+    xored = xor_repeating_key(message, key_received)
+    return xored
 
-def breakRepeatingKeyXor(x, k):
-    blocks = [x[i:i+k] for i in range(0, len(x), k)]
-    transposedBlocks = list(itertools.zip_longest(*blocks, fillvalue=0))
-    key = [breakSingleByteXOR(bytes(x))[0] for x in transposedBlocks]
-    return bytes(key)
 
-def normalizedEditDistance(x, k):
-    #print("X: " + str(x) + " K:" + str(k))
-    blocks = [x[i:i+k] for i in range(0, len(x), k)][0:4]
-    #print("blocks: " + str(blocks))
-    pairs = list(itertools.combinations(blocks, 2))
-    #print("pairs: " + str(pairs))
-    scores = [getHammingDistance(p[0], p[1])/float(k) for p in pairs][0:6]
-    return sum(scores) / len(scores)
+def break_repeating_key_xor(cipher, cipher_is_string_hex=True):
+    if not cipher_is_string_hex:
+        cipher = cipher.encode("utf-8").hex()
+    cipher = bytes.fromhex(cipher)
+    key_len = xor.guess_key_lengths(cipher)
+    key_found = xor.break_xor_repeating_key(cipher, key_len)
+    decrypted = xor_repeating_key(cipher, key_found)
+    message = decrypted.decode('ascii')
+    return message
 
-def brute_force_multi_char_xor(base64_payload):
-    x = base64.b64decode(base64_payload)
 
-    k = min(range(2, 41), key=lambda k: normalizedEditDistance(x, k))
+def aes_in_ecb_mode_decrypt(message, key_received, message_and_key_is_string_hex=True):
+    if not message_and_key_is_string_hex:
+        message = message.encode("utf-8").hex()
+        key_received = key_received.encode("utf-8").hex()
+    decryption_suite = aes.AES.new(key_received, aes.AES.MODE_ECB)
+    msg_dec = decryption_suite.decrypt(message).decode('utf-8')
+    return msg_dec
 
-    key = breakRepeatingKeyXor(x, k)
-    y = encodeRepeatingKeyXor(x, key)
-    
-    print(key, y)
+
+def cesar_encrypt(message, key):
+    plaintext = ''
+    for each in message:
+        p = (ord(each) + key) % 126
+        if p < 32:
+            p += 95
+        plaintext += chr(p)
+    return plaintext
+
+
+def cesar_decrypt(message, key):
+    plaintext = ''
+    for each in message:
+        p = (ord(each) - key) % 126
+        if p < 32:
+            p += 95
+        plaintext += chr(p)
+    return plaintext
+
+
+def break_letter_swapping(message):
+    list_of_letters = []
+    list_of_words = []
+    d = enchant.Dict("en-US")
+    for each in message.lower():
+        if each in ascii_lowercase:
+            list_of_letters.append(each)
+    all_combinations = itertools.permutations(list_of_letters)
+    for comb in all_combinations:
+        new_message = ''.join(comb)
+        word_counter = 0
+        for i in range(0, len(new_message)):
+            if d.check(new_message[word_counter:i+2]):
+                list_of_words.append(new_message[word_counter:i+2])
+                word_counter = i+2
+    return list_of_words
+
+
+def break_substitution_cipher(message, verbosity=0, modulo_level_to_print_verbosity_1=5,
+                              max_len_word=SubstitutionCipher.WordList.MAX_WORD_LENGTH_TO_CACHE,
+                              max_bad_words_rate=SubstitutionCipher.MAX_BAD_WORDS_RATE):
+    enc_text = message.lower()
+    enc_words = re.findall(r"[a-z']+", enc_text)
+
+    # skip the words with apostrophs
+    enc_words = [word for word in enc_words
+                      if "'" not in word and
+                         len(word) <= max_len_word
+                ]
+    enc_words = enc_words[:200]
+
+    print("Loaded %d words in message, loading dicts" % len(enc_words))
+
+    keys = SubstitutionCipher.KeyFinder(enc_words, max_len_word, max_bad_words_rate).find(verbosity, modulo_level_to_print_verbosity_1)
+    if not keys:
+        print("Key not founded, try to increase MAX_BAD_WORDS_RATE")
+        return
+    for key, bad_words in keys.items():
+        print("Possible key: %s, bad words:%d" % (key, bad_words))
+    best_key = min(keys, key=keys.get)
+    print("Best key: %s, bad_words %d" % (best_key, keys[best_key]))
+    trans = maketrans(SubstitutionCipher.ABC, best_key)
+    decrypted = message.translate(trans)
+    print(decrypted)
