@@ -1,9 +1,10 @@
 #!/bin/bash
-sudo apt-get install python3 firefox -y
-sudo pip install selenium
-sudo pip install ipython
-sudo pip install jsbeautifier
-sudo pip install requests
-sudo pip install pycryptodome
+sudo apt-get install python3 python3-pip firefox -y
+sudo pip3 install selenium
+sudo pip3 install ipython
+sudo pip3 install jsbeautifier
+sudo pip3 install requests
+sudo pip3 install pycryptodome
+sudo pip3 install pyenchant
 echo "Please download the right version: https://github.com/mozilla/geckodriver/releases"
 echo "then uncrompress and run ./post_setup.sh"

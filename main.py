@@ -36,7 +36,7 @@ import argparse
 import subprocess
 import base64
 from argparse import RawTextHelpFormatter
-from IPython import embed
+from IPython.terminal.embed import InteractiveShellEmbed
 from Tools.utils import *
 from Tools.BrowserTool import BrowserTool
 import Tools.SQLiTool
@@ -106,4 +106,9 @@ if __name__ == "__main__":
 
     main(args)
     if not args.no_interactive:
-        embed()
+        banner = '*** Nested interpreter ***'
+        exit_msg = '*** Back in main IPython. Call ipshell() to restart ***'
+        ipshell = InteractiveShellEmbed(banner1=banner, exit_msg=exit_msg)
+        ipshell.set_autoindent()
+        ipshell()
+
