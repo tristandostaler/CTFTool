@@ -107,7 +107,7 @@ if __name__ == "__main__":
     main(args)
     if not args.no_interactive:
         banner = '*** Nested interpreter ***'
-        exit_msg = '*** Back in main IPython. Call ipshell() to restart ***'
+        exit_msg = '*** Back in main python. Call ipshell() to restart ***'
         ipshell = InteractiveShellEmbed(banner1=banner, exit_msg=exit_msg)
         ipshell.set_autoindent()
         ipshell()

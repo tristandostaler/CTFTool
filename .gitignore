@@ -92,3 +92,7 @@ ENV/
 *.html
 .zcache
 .vscode/
+
+.vagrant
+host-share/
+*.log
