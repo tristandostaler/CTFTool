@@ -96,3 +96,5 @@ ENV/
 .vagrant
 host-share/
 *.log
+
+Misc/xpathexplorer/tmp/run.cmd

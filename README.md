@@ -17,6 +17,19 @@ To use this tool, you have 2 options:
 For both of these options, you can use SublimeREPL to 
 	create functions and run them using CTRL + , S (CTRL and ',' then S)
 
+I started using Visual Studio Code with the extension ms-python.python for the REPL.
+Either set python3 as the program for /usr/bin/python or CTRL+SHIFT+P 
+	and type python: Select Interpreter and select python3.
+Then open main.py, CTRL+A and then SHIFT+ENTER.
+It's going to start the tool and a Firefox window. If you don't have burp started, 
+	it's going to fail as it will try to connect to burp.
+Simply close firefox, open burp and in the IPython REPL window in the bottom, 
+	call initialise()
+
+This tool is powerfull because you run everything in a browser like a human.
+If some logic happens in javascript that you need, you can do it with this tool.
+
+
 	A typical use is to create a function that get's the page, search for an element
 	by it's id and verify the result. If the challenge is a GET, you only need 1 function,
 	if not, you need 2 (1 to acces the challenge page, 1 to execute the logic).
