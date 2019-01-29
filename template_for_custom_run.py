@@ -9,7 +9,8 @@ def other_function_to_use(browser):
     browser.get("http://example.com")
 
 def custom_login():
-    login(form_control_name="form-control", form_control_index=2)
+    global browserTool
+    browserTool.login(form_control_name="form-control", form_control_index=2)
 
 def main():
     global browserTool

@@ -1,7 +1,7 @@
 from enum import Enum
 import string
 from string import ascii_lowercase, ascii_uppercase
-import urllib
+from urllib.parse import urlparse
 from .utils import *
 
 
@@ -80,7 +80,7 @@ def all_256_character_as_char_brute_force_substr(func, payload, numbers_as_array
                 hasError = False
                 try:
                     if check_not_key_pressed() and func(payload.replace("[count]",str(len(numbers_as_array) + 1)).replace("[letters]",translate_numbers_to_concat_chars(numbers_as_array + [i]))):
-                        all_256_character_brute_force_substr(func, payload, numbers_as_array + [i])
+                        all_256_character_as_char_brute_force_substr(func, payload, numbers_as_array + [i])
                         return;
                 except Exception as ex:
                     show_exception(ex)
@@ -90,7 +90,7 @@ def all_256_character_as_char_brute_force_substr(func, payload, numbers_as_array
     except Exception as ex:
         show_exception(ex)
         print("Retrying complete round...")
-        all_256_character_brute_force_substr(func, payload, numbers_as_array)
+        all_256_character_as_char_brute_force_substr(func, payload, numbers_as_array)
         return;
 
 def translate_numbers_to_concat_chars(numbers):
@@ -127,7 +127,7 @@ def all_256_character_as_hex_brute_force_substr(func, payload, letters_as_hex):
         all_256_character_as_hex_brute_force_substr(func, payload, letters_as_hex)
         return;
 
-def try_default_SQLi_tests(func):
+def try_default_SQLi_tests(func, function_to_interpret_result):
     '''
     http://www.joellipman.com/articles/web-development/basic-tests-for-sql-injection-vulnerabilities.html
     admin' -- 
@@ -186,14 +186,14 @@ def try_default_SQLi_tests(func):
     for payload in payloads:
         if input("Run payload (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
             func(payload)
-            show_success_or_danger()
+            function_to_interpret_result()
     for payload in payloads:
         if input("Run payload url encoded (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
-            func(urllib.quote_plus(payload))
-            show_success_or_danger()
+            func(urlparse(payload))
+            function_to_interpret_result()
         if input("Run payload url encoded twice (Y/n)? (Payload: [" + payload + "]) ").lower() != 'n':
-            func(urllib.quote_plus(urllib.quote_plus(payload)))
-            show_success_or_danger()
+            func(urlparse(urlparse(payload)))
+            function_to_interpret_result()
 
 def __enum(**enums):
     return type('Enum', (), enums)
