@@ -42,6 +42,8 @@ from Tools.BrowserTool import BrowserTool
 import Tools.SQLiTool
 import Tools.XSSTool
 import Tools.CryptoTool
+import Tools.ConnectionClientTool
+import Tools.ADSTool
 
 
 def main(args):
