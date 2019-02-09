@@ -45,6 +45,7 @@ import Tools.CryptoTool
 import Tools.ConnectionClientTool
 import Tools.ADSTool
 import Tools.SSTI
+import Tools.CookieTool
 
 
 def main(args):
