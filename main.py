@@ -44,6 +44,7 @@ import Tools.XSSTool
 import Tools.CryptoTool
 import Tools.ConnectionClientTool
 import Tools.ADSTool
+import Tools.SSTI
 
 
 def main(args):
