@@ -1,3 +1,5 @@
+# Alternative: https://github.com/brendan-rius/c-jwt-cracker
+
 import jwt
 import base64
 import string
